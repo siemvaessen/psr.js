@@ -7,6 +7,7 @@
 #     total_population: 100
 #
 #   }
+#   ...
 # ]
 #
 class PSR.PersonsOfConcern extends PSR.Figure
@@ -60,7 +61,7 @@ class PSR.PersonsOfConcern extends PSR.Figure
     @x = d3.scale.linear()
       .range([0, @width / 2])
 
-    @y = {}
+    @barPadding = 4
 
     @colors =
       background: '#fff'
@@ -68,8 +69,9 @@ class PSR.PersonsOfConcern extends PSR.Figure
       country_of_asylum: 'red'
       deactive: '#ccc'
 
-    @properties.forEach (property) =>
-      @y[property.name] = d3.scale.ordinal()
+    @y = d3.scale.linear()
+    @y.domain [0, 1]
+    @y.range [0, @barHeight + @barPadding]
 
   render: (active = null) =>
 
@@ -86,11 +88,9 @@ class PSR.PersonsOfConcern extends PSR.Figure
 
       propertyData = data[property.name]
 
-      @y[property.name].domain propertyData.sort(@compare).map((d) -> d[property.name])
+      propertyData.sort(@compare).map((d) -> d[property.name])
 
-      @y[property.name].rangePoints [0, @y[property.name].domain().length * @barHeight]
-
-      # Render origin bars
+      # Render background bars
       bars = @g.selectAll(".bar-#{property.name}").data(propertyData, (d) -> d[property.name])
       bars.enter().append('rect')
       bars
@@ -100,32 +100,31 @@ class PSR.PersonsOfConcern extends PSR.Figure
             classList = ['bar', "bar-#{property.name}", d[property.name]]
             classList.join ' ')
           .attr('x', (d) => if property.left then 0 else @width - @x(d.total_population))
-          .attr('y', (d) => @y[property.name](d[property.name]))
+          .attr('y', (d, i) => @y(i))
           .attr('width', (d) => @x(d.total_population))
           .attr('height', @barHeight)
-          .style('fill', (d) => if active? then @colors.deactive else @colors[property.name])
+          .style('fill', (d) => @colors.deactive)
 
       bars.on 'click', (d) =>
 
         @render if active? and active.key == d.key and active[active.key] == d[d.key] then null else d
 
       bars.exit().remove()
-      console.log propertyData
 
+      # render active bars
       activeBars = @g.selectAll(".bar-#{property.name}-active")
         .data(propertyData, (d) -> d[property.name])
 
 
       activeBars.enter().append('rect')
       activeBars
-        .filter((d) -> d.active_population?)
         .transition()
         .duration(500)
           .attr('class', (d) ->
             classList = ['bar', "bar-#{property.name}-active", 'bar-active', d[property.name]]
             classList.join ' ')
           .attr('x', (d) => if property.left then 0 else @width - @x(d.active_population))
-          .attr('y', (d) => @y[property.name](d[property.name]))
+          .attr('y', (d, i) => @y(i))
           .attr('width', (d) => @x(d.active_population))
           .attr('height', @barHeight)
           .style('fill', (d) => @colors[property.name])
@@ -151,7 +150,7 @@ class PSR.PersonsOfConcern extends PSR.Figure
       existing = existing[0]
       existing.total_population += d.total_population
 
-      if active? and d[active.key] == active[active.key]
+      if !active? or d[active.key] == active[active.key]
         existing.active_population += d.total_population
 
     else
@@ -160,7 +159,7 @@ class PSR.PersonsOfConcern extends PSR.Figure
       existing.key = property
       existing.total_population = d.total_population
 
-      if active? and d[active.key] == active[active.key]
+      if !active? or d[active.key] == active[active.key]
         existing.active_population = d.total_population
       else
         existing.active_population = 0
