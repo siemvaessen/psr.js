@@ -8,7 +8,8 @@ module.exports = function(grunt) {
           'build/psr.js': [
             'src/psr.coffee',
             'src/figure.coffee',
-            'src/persons_of_concern.coffee'
+            'src/persons_of_concern.coffee',
+            'src/demographics.coffee'
           ] // compile and concat into single file
         }
       },
@@ -24,7 +25,7 @@ module.exports = function(grunt) {
     }
   });
 
-  // Load the plugin that provides the "coffee" task.
+  // Load the plugin that provides the "coffee", "watch" task.
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
