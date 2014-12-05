@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+}
+
+</style>
+<body>
+
+  <script src="/vendor/d3.js"></script>
+  <script src="/vendor/jquery.min.js"></script>
+  <script src="/build/psr.js"></script>
+  <script>
+
+    var figure = new PSR.Timeseries({
+      el: d3.select('body').node(),
+      height: 300
+    })
+    figure.render()
+
+  </script>
+</body>
+
+

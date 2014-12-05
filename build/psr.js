@@ -415,3 +415,35 @@
   })(PSR.Figure);
 
 }).call(this);
+
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  PSR.Timeseries = (function(_super) {
+    __extends(Timeseries, _super);
+
+    Timeseries.prototype.api = '/stats/time_series';
+
+    Timeseries.prototype.params = {
+      groups: [
+        {
+          column: 'country_of_residence'
+        }, {
+          column: 'country_of_origin'
+        }
+      ]
+    };
+
+    function Timeseries(options) {
+      if (options == null) {
+        options = {};
+      }
+      Timeseries.__super__.constructor.apply(this, arguments);
+    }
+
+    return Timeseries;
+
+  })(PSR.Figure);
+
+}).call(this);

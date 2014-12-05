@@ -9,7 +9,8 @@ module.exports = function(grunt) {
             'src/psr.coffee',
             'src/figure.coffee',
             'src/persons_of_concern.coffee',
-            'src/demographics.coffee'
+            'src/demographics.coffee',
+            'src/timeseries.coffee'
           ] // compile and concat into single file
         }
       },
