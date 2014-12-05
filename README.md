@@ -3,15 +3,6 @@
 
 PSR.js visualizes the statistics in the PSR database through the PSR API (http://popdata.unhcr.org/wiki/index.php/API_Documentation).
 
-Global options
-```
-options = {
-  el: <HTML element>,
-  width: <width>,
-  height: <height>,
-}
-```
-
 ### Develop
 
 To setup for development, clone the repo:
