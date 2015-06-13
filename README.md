@@ -1,7 +1,7 @@
 # PSR.js
 =====
 
-PSR.js visualizes the statistics in the PSR database through the PSR API (http://popdata.unhcr.org/wiki/index.php/API_Documentation).
+PSR.js visualizes the statistics in the PSR database through the PSR API (http://popdata.unhcr.org/wiki/index.php?title=API_Documentation).
 
 ### Develop
 
